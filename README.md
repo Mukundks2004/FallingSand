@@ -37,10 +37,12 @@ same goes for \_ underscores
 # Another heading before we move on
 ---
 this is sandwiched between lines
----
+
+___
+
 
 [Here is a link to google](https://google.com.au "This is a link to google but the title!")
----
+
 
 <!-- This is a comment that you dont get to see! -->
 
@@ -61,3 +63,41 @@ def my_private_func(my_paramter):
 > Mukund, 2024
 
 *the above line is a quote thingo*
+
+# experimenting below
+
+$$\int_{-\infty}^{\infty}e^{-{x^2}}dx = \sqrt{\pi}$$
+
+doubt that will work lol
+
+---
+
+```
+generic code here
+
+@ echo off 
+
+```
+___
+apparently the above also does a line, it's a triple underscore
+
+`<p>here is a html paragraph i produced using backticks</p>`
+
+wow aint that neat!
+
+```csharp
+//This is some c sharp code
+//Are y'all ready for this??
+
+class Program {
+
+    static void Main(string[] args) {
+        Console.WriteLine("Hello world!");
+    }
+
+    public static int Square(int number) {
+        return number * number;
+    }
+    
+}
+```
