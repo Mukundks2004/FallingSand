@@ -1,34 +1,39 @@
-function setup() {
-  let d = 70;
-  let p1 = d;
-  let p2 = p1 + d;
-  let p3 = p2 + d;
-  let p4 = p3 + d;
 
-  // Sets the screen to be 720 pixels wide and 400 pixels high
-  createCanvas(720, 400);
-  background(0);
-  noSmooth();
 
-  translate(140, 0);
-
-  // Draw gray box
-  stroke(153);
-  line(p3, p3, p2, p3);
-  line(p2, p3, p2, p2);
-  line(p2, p2, p3, p2);
-  line(p3, p2, p3, p3);
-
-  // Draw white points
-  stroke(255);
-  point(p1, p1);
-  point(p1, p3);
-  point(p2, p4);
-  point(p3, p1);
-  point(p4, p2);
-  point(p4, p4);
+function makeZeroArray() {
+  let arr = new Array(rows);
+  for (let i = 0; i < rows; i++) {
+    arr[i] = new Array(cols);
+    for (let j = 0; j < cols; j++) {
+      arr[i][j] = 0;
+    }
+  }
+  return arr;
 }
 
-// function draw() {
-//   background(220);
-// }
+let rows = 50;
+let cols = 50;
+let squareSize = 15;
+let array;
+
+function setup() {
+  createCanvas(cols * squareSize, rows * squareSize);
+  array = makeZeroArray();
+  array[10][10] = 1;
+  
+  
+}
+
+function draw() {
+  background(0);
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      stroke(255);
+      fill(array[i][j]*255);
+      
+      let x = j * squareSize;
+      let y = i * squareSize;
+      square(x, y, 50);
+    }
+  }
+}
