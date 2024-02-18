@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("Roboto.ttf");
+}
+
+body {
+    font-family: Roboto;
+    background-color: darkred;
+    color: orange;
+}
+
+#myCanvas {
+    border: solid;
+    color: orange;
+    border-width: 2px;
+}
+
+.canvasDiv {
+    text-align: center;
+}
