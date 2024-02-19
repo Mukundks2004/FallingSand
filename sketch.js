@@ -1,3 +1,9 @@
+let rows = 300;
+let cols = 300;
+let squareSize = 2;
+let blobSize = 2;
+let array;
+
 function makeZeroArray() {
   let arr = new Array(rows);
   for (let i = 0; i < rows; i++) {
@@ -9,13 +15,9 @@ function makeZeroArray() {
   return arr;
 }
 
-let rows = 50;
-let cols = 50;
-let squareSize = 8;
-let array;
-
 function setup() {
-  createCanvas(cols * squareSize, rows * squareSize);
+  
+  createCanvas(600, 600);
   array = makeZeroArray();
 }
 
@@ -32,29 +34,36 @@ function IsInBounds(x, y) {
 }
 
 function mouseDragged() {
-  if (isXInBounds(mouseX) && isYInBounds(mouseY)) {
-    let xCell = Math.floor(mouseX/squareSize);
-    let yCell = Math.floor(mouseY/squareSize);
-    array[yCell][xCell] = 1;
-  }
+  
 }
 
 function draw() {
+  if (mouseIsPressed) {
+    for (let i = -blobSize; i < blobSize; i++) {
+      for (let j = -blobSize; j < blobSize; j++) {
+        if (isXInBounds(mouseX + j * squareSize) && isYInBounds(mouseY + i * blobSize) && Math.random() > 0.9) {
+          let xCell = Math.floor(mouseX/squareSize);
+          let yCell = Math.floor(mouseY/squareSize);
+          array[yCell + j][xCell + i] = 1;
+        }
+      }
+    }
+  }
   background(0);
   drawMyArray();
-  getNextArray();
-}
+  
+  let newArray = makeZeroArray();
 
-function getNextArray() {
   for (let row = rows - 2; row >= 0; row--) {
     for (let col = 0; col < cols; col++) {
-      if (array[row][col] == 1) {
+      let state = array[row][column];
+      if (state == 1) {
         if (array[row + 1][col] == 0) {
           array[row + 1][col] = 1;
           array[row][col] = 0;
         }
         else {
-          direction = Math.random(1) > 0.5 ? 1 : -1;
+          direction = Math.random() > 0.5 ? 1 : -1;
           if (array[row + 1][col + direction] == 0) {
             array[row + 1][col + direction] = 1;
             array[row][col] = 0;
@@ -67,12 +76,13 @@ function getNextArray() {
       }
     }
   }
+  array = newArray;
 }
 
 function drawMyArray() {
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
-      stroke(0);
+      noStroke();
       fill(array[i][j]*255);
       
       let x = j * squareSize;
