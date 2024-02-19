@@ -1,8 +1,8 @@
-let rows = 300;
-let cols = 300;
+let rows, cols;
 let squareSize = 2;
 let blobSize = 2;
-let array;
+let array, colourGrid, movingGrid;
+let mukundBlue;
 
 function makeZeroArray() {
   let arr = new Array(rows);
@@ -15,49 +15,66 @@ function makeZeroArray() {
   return arr;
 }
 
+function isRowInBounds(row) {
+  return row >= 0 && row < rows;
+}
+
+function isColInBounds(col) {
+  return col >= 0 && col < cols;
+}
+
 function setup() {
   
   createCanvas(600, 600);
+  cols = width / squareSize;
+  rows = height / squareSize;
   array = makeZeroArray();
+  colourGrid = makeZeroArray();
+  movingGrid = makeZeroArray();
 }
 
-function isXInBounds(x) {
-  return (x >= 0 && x < cols * squareSize);
-}
-
-function isYInBounds(y) {
-  return (y >= 0 && y < rows * squareSize);
-}
-
-function IsInBounds(x, y) {
-  return isXInBounds(x) && isYInBounds(y);
-}
-
-function mouseDragged() {
-  
+function varyBlue(color) {
+  let Hue = floor(hue(color));
+  let Sat = saturation(color) + floor(random(0, 10));
+  let Light = lightness(color) + floor(random(-10, 0));
+  return `hsl(${Hue}, ${Sat}%, ${Light}%)`;
 }
 
 function draw() {
+  background(0);
   if (mouseIsPressed) {
-    for (let i = -blobSize; i < blobSize; i++) {
-      for (let j = -blobSize; j < blobSize; j++) {
-        if (isXInBounds(mouseX + j * squareSize) && isYInBounds(mouseY + i * blobSize) && Math.random() > 0.9) {
-          let xCell = Math.floor(mouseX/squareSize);
-          let yCell = Math.floor(mouseY/squareSize);
-          array[yCell + j][xCell + i] = 1;
+    let mouseCol = floor(mouseX / squareSize);
+    let mouseRow = floor(mouseY / squareSize);
+    for (let i = -blobSize; i <= blobSize; i++) {
+      for (let j = -blobSize; j <= blobSize; j++) {
+        if (isRowInBounds(mouseRow + i) && isColInBounds(mouseCol + j) && Math.random() > 0.6) {
+          //mukundBlue = color("magenta");
+          //console.log(varyBlue(mukundBlue));
+          array[mouseRow + i][mouseCol + j] = 1;
         }
       }
     }
   }
-  background(0);
-  drawMyArray();
-  
-  let newArray = makeZeroArray();
+  mukundBlue = color("magenta");
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      noStroke();
+      if (array[i][j] > 0) {
+
+        colorMode(HSB);
+
+        fill(varyBlue(mukundBlue));
+
+        let x = j * squareSize;
+        let y = i * squareSize;
+        square(x, y, squareSize);
+      }
+    }
+  }
 
   for (let row = rows - 2; row >= 0; row--) {
     for (let col = 0; col < cols; col++) {
-      let state = array[row][column];
-      if (state == 1) {
+      if (array[row][col] == 1) {
         if (array[row + 1][col] == 0) {
           array[row + 1][col] = 1;
           array[row][col] = 0;
@@ -74,20 +91,6 @@ function draw() {
           }
         }
       }
-    }
-  }
-  array = newArray;
-}
-
-function drawMyArray() {
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      noStroke();
-      fill(array[i][j]*255);
-      
-      let x = j * squareSize;
-      let y = i * squareSize;
-      square(x, y, squareSize);
     }
   }
 }
