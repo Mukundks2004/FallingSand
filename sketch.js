@@ -1,7 +1,9 @@
 let rows, cols;
 let squareSize = 2;
-let blobSize = 2;
+let blobSize = 5;
 let array, colourGrid, movingGrid;
+//the array grid contains the zeroes and ones that correspond to where sand is located and where it is not
+//the moving grid contains a 
 let mukundBlue;
 
 function makeZeroArray() {
@@ -23,14 +25,23 @@ function isColInBounds(col) {
   return col >= 0 && col < cols;
 }
 
+function colourMyGrid(myGrid, myColour) {
+  for (let i = 0; i < myGrid.length; i++) {
+    for (let j = 0; j < myGrid.length; j++) {
+      myGrid[i][j] = varyBlue(myColour);
+    }
+  }
+}
+
 function setup() {
-  
   createCanvas(600, 600);
   cols = width / squareSize;
   rows = height / squareSize;
   array = makeZeroArray();
   colourGrid = makeZeroArray();
   movingGrid = makeZeroArray();
+  mukundBlue = color("magenta");
+  colourMyGrid(colourGrid, mukundBlue);
 }
 
 function varyBlue(color) {
@@ -48,22 +59,19 @@ function draw() {
     for (let i = -blobSize; i <= blobSize; i++) {
       for (let j = -blobSize; j <= blobSize; j++) {
         if (isRowInBounds(mouseRow + i) && isColInBounds(mouseCol + j) && Math.random() > 0.6) {
-          //mukundBlue = color("magenta");
-          //console.log(varyBlue(mukundBlue));
           array[mouseRow + i][mouseCol + j] = 1;
         }
       }
     }
   }
-  mukundBlue = color("magenta");
+
+  
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       noStroke();
       if (array[i][j] > 0) {
-
         colorMode(HSB);
-
-        fill(varyBlue(mukundBlue));
+        fill(colourGrid[i][j]);
 
         let x = j * squareSize;
         let y = i * squareSize;
