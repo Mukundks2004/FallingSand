@@ -40,12 +40,12 @@ function setup() {
   array = makeZeroArray();
   colourGrid = makeZeroArray();
   movingGrid = makeZeroArray();
-  mukundBlue = color("magenta");
+  mukundBlue = color("yellow");
   colourMyGrid(colourGrid, mukundBlue);
 }
 
 function varyBlue(color) {
-  let Hue = floor(hue(color));
+  let Hue = floor(hue(color)) + floor(random(-100, 100));
   let Sat = saturation(color) + floor(random(0, 10));
   let Light = lightness(color) + floor(random(-10, 0));
   return `hsl(${Hue}, ${Sat}%, ${Light}%)`;
