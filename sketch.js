@@ -1,7 +1,7 @@
 let rows, cols;
 let squareSize = 5;
 let blobSize = 3;
-let array, colourGrid;
+let grid;
 
 //Used to keep all sand on the screen
 function isRowInBounds(row) {
@@ -36,7 +36,7 @@ function setup() {
   createCanvas(300, 300);
   cols = width / squareSize;
   rows = height / squareSize;
-  array = makeZeroArray();
+  grid = makeZeroArray();
   colourGrid = makeZeroArray();
   movingGrid = makeZeroArray();
 }
@@ -53,21 +53,19 @@ function draw() {
     for (let i = -blobSize; i <= blobSize; i++) {
       for (let j = -blobSize; j <= blobSize; j++) {
         if (isRowInBounds(mouseRow + i) && isColInBounds(mouseCol + j) && Math.random() > 0.6) {
-          array[mouseRow + i][mouseCol + j] = 1;
-          colourGrid[mouseRow + i][mouseCol + j] = varyColour(color("orange"));
+          grid[mouseRow + i][mouseCol + j] = varyColour(color("orange"));
         }
       }
     }
   }
 
   //Draw sand
+  colorMode(HSB);
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       noStroke();
-      if (array[i][j] > 0) {
-        colorMode(HSB);
-        fill(colourGrid[i][j]);
-
+      if (grid[i][j] != 0) {
+        fill(grid[i][j]);
         let x = j * squareSize;
         let y = i * squareSize;
         square(x, y, squareSize);
@@ -78,28 +76,22 @@ function draw() {
   //Drop sand
   for (let row = rows - 2; row >= 0; row--) {
     for (let col = 0; col < cols; col++) {
-      if (array[row][col] == 1) {
-        if (array[row + 1][col] == 0) {
-          array[row + 1][col] = 1;
-          array[row][col] = 0;
-          colourGrid[row + 1][col] = colourGrid[row][col];
-          colourGrid[row][col] = 0;
+      if (grid[row][col] != 1) {
+        if (grid[row + 1][col] == 0) {
+          grid[row + 1][col] = grid[row][col];
+          grid[row][col] = 0;
         }
 
         //Spill if sand cannot drop directly down
         else {
           direction = Math.random() > 0.5 ? 1 : -1;
-          if (array[row + 1][col + direction] == 0) {
-            array[row + 1][col + direction] = 1;
-            array[row][col] = 0;
-            colourGrid[row + 1][col + direction] = colourGrid[row][col];
-            colourGrid[row][col] = 0;
+          if (grid[row + 1][col + direction] == 0) {
+            grid[row + 1][col + direction] = grid[row][col];
+            grid[row][col] = 0;
           }
-          else if (array[row + 1][col - direction] == 0) {
-            array[row + 1][col - direction] = 1;
-            array[row][col] = 0;
-            colourGrid[row + 1][col - direction] = colourGrid[row][col];
-            colourGrid[row][col] = 0;
+          else if (grid[row + 1][col - direction] == 0) {
+            grid[row + 1][col - direction] = grid[row][col];
+            grid[row][col] = 0;
           }
         }
       }
