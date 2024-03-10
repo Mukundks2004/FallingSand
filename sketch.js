@@ -1,7 +1,7 @@
 let rows, cols;
 let squareSize = 5;
 let blobSize = 3;
-let grid;
+let sandGrid;
 let totalWidth = 300;
 let totalHeight = 300;
 
@@ -16,14 +16,13 @@ function isColInBounds(col) {
 
 //Initializes grid with 0s
 function makeZeroArray() {
-  let sandGrid = new Array(rows);
+  sandGrid = new Array(rows);
   for (let i = 0; i < rows; i++) {
     sandGrid[i] = new Array(cols);
     for (let j = 0; j < cols; j++) {
       sandGrid[i][j] = 0;
     }
   }
-  return sandGrid;
 }
 
 //Varies colour by a little
@@ -39,9 +38,7 @@ function setup() {
   container.parent('container');
   cols = width / squareSize;
   rows = height / squareSize;
-  grid = makeZeroArray();
-  colourGrid = makeZeroArray();
-  movingGrid = makeZeroArray();
+  makeZeroArray();
 }
 
 function draw() {
@@ -60,7 +57,7 @@ function draw() {
     for (let i = -blobSize; i <= blobSize; i++) {
       for (let j = -blobSize; j <= blobSize; j++) {
         if (isRowInBounds(mouseRow + i) && isColInBounds(mouseCol + j) && Math.random() > 0.6) {
-          grid[mouseRow + i][mouseCol + j] = varyColour(color(value));
+          sandGrid[mouseRow + i][mouseCol + j] = varyColour(color(value));
         }
       }
     }
@@ -71,8 +68,8 @@ function draw() {
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       noStroke();
-      if (grid[i][j] != 0) {
-        fill(grid[i][j]);
+      if (sandGrid[i][j] != 0) {
+        fill(sandGrid[i][j]);
         let x = j * squareSize;
         let y = i * squareSize;
         square(x, y, squareSize);
@@ -83,22 +80,22 @@ function draw() {
   //Drop sand
   for (let row = rows - 2; row >= 0; row--) {
     for (let col = 0; col < cols; col++) {
-      if (grid[row][col] != 1) {
-        if (grid[row + 1][col] == 0) {
-          grid[row + 1][col] = grid[row][col];
-          grid[row][col] = 0;
+      if (sandGrid[row][col] != 1) {
+        if (sandGrid[row + 1][col] == 0) {
+          sandGrid[row + 1][col] = sandGrid[row][col];
+          sandGrid[row][col] = 0;
         }
 
         //Spill if sand cannot drop directly down
         else {
           direction = Math.random() > 0.5 ? 1 : -1;
-          if (grid[row + 1][col + direction] == 0) {
-            grid[row + 1][col + direction] = grid[row][col];
-            grid[row][col] = 0;
+          if (sandGrid[row + 1][col + direction] == 0) {
+            sandGrid[row + 1][col + direction] = sandGrid[row][col];
+            sandGrid[row][col] = 0;
           }
-          else if (grid[row + 1][col - direction] == 0) {
-            grid[row + 1][col - direction] = grid[row][col];
-            grid[row][col] = 0;
+          else if (sandGrid[row + 1][col - direction] == 0) {
+            sandGrid[row + 1][col - direction] = sandGrid[row][col];
+            sandGrid[row][col] = 0;
           }
         }
       }
