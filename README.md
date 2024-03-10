@@ -9,3 +9,9 @@ Note: while I initially changed the program to make it run faster, the goal of F
 
 ## Update
 Added colour selector
+
+##TODO
+
+- slider for blob size
+- slider for sand sparsity
+- rainbow colour (changes over time maybe??)
