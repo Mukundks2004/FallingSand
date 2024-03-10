@@ -33,7 +33,8 @@ function varyColour(color) {
 }
 
 function setup() {
-  createCanvas(300, 300);
+  var container = createCanvas(300, 300);
+  container.parent('container');
   cols = width / squareSize;
   rows = height / squareSize;
   grid = makeZeroArray();
@@ -46,6 +47,10 @@ function draw() {
   //Reset canvas
   background(0);
 
+  //Select colour
+  let e = document.getElementById("sandColour");
+  let value = e.value;
+
   //Generate sand
   if (mouseIsPressed) {
     let mouseCol = floor(mouseX / squareSize);
@@ -53,7 +58,7 @@ function draw() {
     for (let i = -blobSize; i <= blobSize; i++) {
       for (let j = -blobSize; j <= blobSize; j++) {
         if (isRowInBounds(mouseRow + i) && isColInBounds(mouseCol + j) && Math.random() > 0.6) {
-          grid[mouseRow + i][mouseCol + j] = varyColour(color("orange"));
+          grid[mouseRow + i][mouseCol + j] = varyColour(color(value));
         }
       }
     }
