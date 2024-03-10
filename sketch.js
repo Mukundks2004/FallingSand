@@ -39,7 +39,6 @@ function setup() {
   array = makeZeroArray();
   colourGrid = makeZeroArray();
   movingGrid = makeZeroArray();
-  sandBaseColour = color("brown");
 }
 
 function draw() {
@@ -55,7 +54,7 @@ function draw() {
       for (let j = -blobSize; j <= blobSize; j++) {
         if (isRowInBounds(mouseRow + i) && isColInBounds(mouseCol + j) && Math.random() > 0.6) {
           array[mouseRow + i][mouseCol + j] = 1;
-          colourGrid[mouseRow + i][mouseCol + j] = varyColour(color("brown"));
+          colourGrid[mouseRow + i][mouseCol + j] = varyColour(color("orange"));
         }
       }
     }
