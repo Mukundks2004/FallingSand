@@ -2,6 +2,8 @@ let rows, cols;
 let squareSize = 5;
 let blobSize = 3;
 let grid;
+let totalWidth = 300;
+let totalHeight = 300;
 
 //Used to keep all sand on the screen
 function isRowInBounds(row) {
@@ -33,7 +35,7 @@ function varyColour(color) {
 }
 
 function setup() {
-  var container = createCanvas(300, 300);
+  var container = createCanvas(totalWidth, totalHeight);
   container.parent('container');
   cols = width / squareSize;
   rows = height / squareSize;
@@ -52,7 +54,7 @@ function draw() {
   let value = e.value;
 
   //Generate sand
-  if (mouseIsPressed) {
+  if (mouseIsPressed && mouseY < totalHeight) {
     let mouseCol = floor(mouseX / squareSize);
     let mouseRow = floor(mouseY / squareSize);
     for (let i = -blobSize; i <= blobSize; i++) {
